@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -18,6 +19,17 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update () {
+		UpdateMovement ();
+		CheckForOutOfBounds ();
+	}
+
+	void CheckForOutOfBounds(){
+		if (transform.position.y < -2) {
+			SceneManager.LoadScene ("Level 1");
+		}
+	}
+
+	void UpdateMovement(){
 		if (Input.GetButtonDown("Jump")) {
 			if (!isJumping) {
 				isJumping = true;

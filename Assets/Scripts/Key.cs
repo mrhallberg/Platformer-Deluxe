@@ -5,9 +5,8 @@ public class Key : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collider){
 		if (collider.gameObject.tag == "Player") {
-			print ("Key");
 			Player player = collider.gameObject.GetComponentInParent (typeof(Player)) as Player;
-			player.AddItem ("YellowKey");
+			player.hud.AddItem (new Item(Item.ItemName.YellowKey, Item.ItemType.Key));
 			GameObject.Destroy (this.gameObject);
 		}
 	}

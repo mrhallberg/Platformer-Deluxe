@@ -6,11 +6,10 @@ public class Gate : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collider){
 		if (collider.gameObject.tag == "Player") {
-			print ("Gate");
 			Player player = collider.gameObject.GetComponentInParent (typeof(Player)) as Player;
-			if (player.items.Contains("YellowKey")) {
+			if (player.hud.ContainsItem(StaticItems.YellowKey)) {
 				GameObject.Destroy (this.gameObject);
-				player.RemoveItem ("YellowKey");
+				player.hud.RemoveItem (StaticItems.YellowKey);
 			}
 		}
 	}

@@ -9,44 +9,18 @@ public class Player : MonoBehaviour {
 	public float jumpForce;
 
 	public bool isJumping = false;
-	public List<string> items;
+	public HUD hud;
 
 	public int amountOfJumps;
 	public int jumps = 0;
-
-	public GameObject yellowKey;
+	public float direction;
 
 	Animator animator;
 	Rigidbody2D rigidbody;
 
-
 	void Start () {
 		animator = GetComponent<Animator> ();
 		rigidbody = GetComponent<Rigidbody2D> ();
-		items = new List<string> ();
-		yellowKey.GetComponent<SpriteRenderer> ().enabled = false;
-	}
-
-	public void AddItem(string item){
-		switch (item) {
-		case "YellowKey":
-			yellowKey.GetComponent<SpriteRenderer> ().enabled = true;
-			items.Add ("YellowKey");
-			break;
-		default:
-			break;
-		}
-	}
-
-	public void RemoveItem(string item){
-		switch (item) {
-		case "YellowKey":
-			yellowKey.GetComponent<SpriteRenderer> ().enabled = false;
-			items.Remove ("YellowKey");
-			break;
-		default:
-			break;
-		}
 	}
 
 	void Update () {
@@ -57,12 +31,23 @@ public class Player : MonoBehaviour {
 		if (Input.GetButtonDown("Jump")) {
 			if (jumps < amountOfJumps) {
 				isJumping = true;
+				animator.SetBool ("IsJumping", true);
+				rigidbody.Sleep ();
 				rigidbody.AddForce (new Vector2 (0, jumpForce));
 				jumps++;
 			}
 		}
-		if (Input.GetAxisRaw("Horizontal") != 0) {
-			animator.SetBool ("IsWalking", true);
+		float HorizontalInput = Input.GetAxisRaw ("Horizontal");
+		if (HorizontalInput != 0) {
+			if (isJumping) {
+				animator.SetBool ("IsWalking", false);
+			} else {
+				animator.SetBool ("IsWalking", true);
+			}
+			if (HorizontalInput != direction) {
+				direction *= -1;
+				transform.localEulerAngles += Vector3.up * 180 * direction;
+			}
 			transform.position += new Vector3 (Input.GetAxisRaw ("Horizontal") * moveSpeed * Time.deltaTime, 0, 0);
 		} else {
 			animator.SetBool ("IsWalking", false);
@@ -72,6 +57,8 @@ public class Player : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collider){
 		if (collider.gameObject.tag == "Ground") {
 			jumps = 0;
+			isJumping = false;
+			animator.SetBool ("IsJumping", false);
 		}
 	}
 }

@@ -14,6 +14,12 @@ public class HUD : MonoBehaviour {
 		_items = new List<Item> ();
 		YellowKeyShow.SetActive (false);
 		CloudShow.SetActive (false);
+		Vector3 TopMiddle = Camera.main.ViewportToWorldPoint (new Vector3 (0.5f, 0.95f, 0));
+		TopMiddle.z += 10;
+		YellowKeyShow.transform.position = TopMiddle - Vector3.left * 0.5f;
+		YellowKeyHide.transform.position = TopMiddle - Vector3.left * 0.5f;
+		CloudHide.transform.position = TopMiddle + Vector3.left * 0.5f;
+		CloudShow.transform.position = TopMiddle + Vector3.left * 0.5f;
 	}
 
 	public bool ContainsItem(Item item){

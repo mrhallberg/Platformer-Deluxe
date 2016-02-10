@@ -4,17 +4,18 @@ using System.Collections;
 public class Coin : MonoBehaviour {
 
 	Animator animator;
-	AudioSource audio;
+	public AudioClip soundClip;
 
 	void Start () {
 		animator = GetComponent<Animator> ();
-		audio = GetComponent<AudioSource> ();
 	}
 
 	void OnTriggerEnter2D(Collider2D collider){
-		animator.SetBool ("IsTaken", true);
-		audio.Play ();
-		Destroy (this.GetComponent<BoxCollider2D> ());
-		GameObject.Destroy (transform.parent.gameObject, .7f);
+		if (collider.gameObject.tag == "Player") {
+			animator.SetBool ("IsTaken", true);
+			AudioManager.Play (soundClip);
+			Destroy (this.GetComponent<BoxCollider2D> ());
+			GameObject.Destroy (transform.parent.gameObject, .7f);
+		}
 	}
 }

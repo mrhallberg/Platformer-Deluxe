@@ -7,13 +7,13 @@ public class HUD : MonoBehaviour {
 	private List<Item> _items;
 	public GameObject YellowKeyShow;
 	public GameObject YellowKeyHide;
-
-	Color YellowKeySpriteColorFull;
-	Color YellowKeySpriteColorOpaque;
+	public GameObject CloudShow;
+	public GameObject CloudHide;
 
 	void Start () {
 		_items = new List<Item> ();
 		YellowKeyShow.SetActive (false);
+		CloudShow.SetActive (false);
 	}
 
 	public bool ContainsItem(Item item){
@@ -21,9 +21,7 @@ public class HUD : MonoBehaviour {
 	}
 
 	public void AddItem(Item item){
-		if (item.Type == Item.ItemType.Key) {
-			ShowItem (item);
-		}
+		ShowItem (item);
 		_items.Add (item);
 	}
 
@@ -32,6 +30,10 @@ public class HUD : MonoBehaviour {
 		case Item.ItemName.YellowKey:
 			YellowKeyHide.SetActive (false);
 			YellowKeyShow.SetActive (true);
+			break;
+		case Item.ItemName.Cloud:
+			CloudShow.SetActive (true);
+			CloudHide.SetActive (false);
 			break;
 		default:
 			break;
@@ -44,6 +46,10 @@ public class HUD : MonoBehaviour {
 			YellowKeyHide.SetActive (true);
 			YellowKeyShow.SetActive (false);
 			break;
+		case Item.ItemName.Cloud:
+			CloudShow.SetActive (false);
+			CloudHide.SetActive (true);
+			break;
 		default:
 			break;
 		}
@@ -51,9 +57,7 @@ public class HUD : MonoBehaviour {
 
 	public void RemoveItem(Item item){
 		_items.Remove (item);
-		if (item.Type == Item.ItemType.Key && !_items.Contains(item)) {
-			HideItem (item);
-		}
+		HideItem (item);
 	}
 
 

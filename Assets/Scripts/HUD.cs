@@ -22,8 +22,8 @@ public class HUD : MonoBehaviour {
 		CloudShow.transform.position = TopMiddle + Vector3.left * 0.5f;
 	}
 
-	public bool ContainsItem(Item item){
-		return _items.Contains (item);
+	public bool ContainsItem(Item.ItemName itemName){
+		return _items.Exists (item => itemName == item.Name);
 	}
 
 	public void AddItem(Item item){
@@ -31,7 +31,7 @@ public class HUD : MonoBehaviour {
 		_items.Add (item);
 	}
 
-	public void ShowItem(Item item){
+	private void ShowItem(Item item){
 		switch (item.Name) {
 		case Item.ItemName.YellowKey:
 			YellowKeyHide.SetActive (false);
@@ -46,7 +46,7 @@ public class HUD : MonoBehaviour {
 		}
 	}
 
-	public void HideItem(Item item){
+	private void HideItem(Item item){
 		switch (item.Name) {
 		case Item.ItemName.YellowKey:
 			YellowKeyHide.SetActive (true);
@@ -61,9 +61,10 @@ public class HUD : MonoBehaviour {
 		}
 	}
 
-	public void RemoveItem(Item item){
-		_items.Remove (item);
-		HideItem (item);
+	public void RemoveItem(Item.ItemName itemName){
+		Item currentItem = _items.Find (i => itemName == i.Name);
+		_items.Remove (currentItem);
+		HideItem (currentItem);
 	}
 
 
@@ -91,8 +92,4 @@ public struct Item{
 		BlueKey,
 		Cloud
 	}
-}
-
-public static class StaticItems{
-	public static Item YellowKey = new Item(Item.ItemName.YellowKey, Item.ItemType.Key);
 }

@@ -12,7 +12,7 @@ public class Player : MonoBehaviour {
 	public HUD hud;
 
 	public int amountOfJumps;
-	public int jumps = 0;
+	public int jumps;
 	public float direction;
 
 	Animator animator;
